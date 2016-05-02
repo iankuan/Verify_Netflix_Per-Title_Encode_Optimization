@@ -7,4 +7,6 @@ set term png
 
 set output 'comparation.png'
 
+#plot 'file1' title 'first', 'file20' title 'second', ...
 plot using[20:50][0:30000] ''
+

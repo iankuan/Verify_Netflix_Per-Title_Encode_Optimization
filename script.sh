@@ -71,8 +71,9 @@ START=00:00:03
 ffmpeg -i $INFILE -ss $START -vframes $FRAMES -strict -1 $RF_FILE
 
 read -p "pause" Pause
-l=2
-while [ $l -lt $i ]
+l=1
+#TODO:BUG for loop condition
+while [ $l -lt $(($i-2)) ]
 do
   TEMPDS=${IMG_RESOLUTION[$l]}_$DS_FILE
 ###Down Sampling
