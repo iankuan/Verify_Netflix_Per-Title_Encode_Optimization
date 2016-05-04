@@ -31,7 +31,7 @@ while [ $i -le $# ]
 do
   #temp=$i
   echo "arg $i is ${!i}"
-  IMG_RESOLUTION[$(($i-2))]=${!i}
+  IMG_RESOLUTION[$(($i-1))]=${!i}
   #echo "i is $i"
   i=$(($i+1))
 done
@@ -73,7 +73,7 @@ ffmpeg -i $INFILE -ss $START -vframes $FRAMES -strict -1 $RF_FILE
 read -p "pause" Pause
 l=1
 #TODO:BUG for loop condition
-while [ $l -lt $(($i-2)) ]
+while [ $l -lt $(($i-1)) ]
 do
   TEMPDS=${IMG_RESOLUTION[$l]}_$DS_FILE
 ###Down Sampling
@@ -85,7 +85,6 @@ do
     TEMPQPBIN=${IMG_RESOLUTION[$l]}_${QP[$S]}.bin
     TEMPCSV=${IMG_RESOLUTION[$l]}_${QP[$S]}.csv
     x265 $TEMPDS $TEMPQPBIN -p slower -q ${QP[$S]} --csv-log-level 2 --csv $TEMPCSV --tune psnr
-#TODO:get the individual bitrate
 
 ###Decode HEVC
     TEMPDC=${IMG_RESOLUTION[$l]}_${QP[$S]}_$DC_FILE
@@ -95,10 +94,52 @@ do
     ffmpeg -i $TEMPDC -vf scale=4096x2160 -strict -1 $TEMPUS
 ###Calulate PSNR
     TEMPLOG=${IMG_RESOLUTION[$l]}_${QP[$S]}_$PSNR_LOG
-    ffmpeg -i $RF_FILE -i $TEMPUS -filter_complex "psnr" -f null nul > $TEMPLOG
+    ffmpeg -i $RF_FILE -i $TEMPUS -filter_complex "psnr" -f null nul > $TEMPLOG 2>&1
+###TODO:get PSNR and Bitrate
+
+    echo "CSV $TEMPCSV LOG $TEMPLOG"
+    echo "grep -A1 "'$TEMPCSV'" $TEMPCSV | awk -F', ' '{print $5}'"
+    Bitrate=$(grep -A1 $TEMPCSV $TEMPCSV | awk -F', ' '{print $5}')
+    echo "Bit $Bitrate"
+    PSNR=$(grep -oP 'PSNR y:\K\d+.\d+' $TEMPLOG)
+    echo "PSNR $PSNR"
+    echo "Bitrate $Bitrate PSNR $PSNR"
+    echo "$Bitrate $PSNR" >> ${IMG_RESOLUTION[$l]}_Bitrate_PSNR.log
     S=$(($S+1))
   done
+  FILEINGP[$l]=${IMG_RESOLUTION[$l]}_Bitrate_PSNR.log
+  echo "GILEINGP[$l] ${FILEINGP[$l]}"
   l=$(($l+1))
 done
+
+
+GPCONFIG=gpconfig.gp
+GPPLOT="plot [0:30000][20:55] "
+p=1
+echo "***** l = $l*****"
+while [ $p -lt $l ]
+do
+  GPPLOT="$GPPLOT ""'${FILEINGP[$p]}'"" title ""'${IMG_RESOLUTION[$p]}'"","
+  echo "p = $p ,l = $l"
+  p=$(($p+1))
+done
+
+echo "GPPLOT $GPPLOT"
+
+echo $GPPLOT
+TEMPGP=tempgp.gp
+cp gpconfig.gp $TEMPGP
+echo $GPPLOT >> $TEMPGP
+
+gnuplot $TEMPGP
+
+rm -f $TEMPGP
+
 #ffmpeg -i $INFILE -vf scale=$IMG_RESOLUTION[] -strict -1
+
+###get PSNR
 #grep -oP 'PSNR y:\K\d+.\d+' psnr.log
+###get Bitrate
+#grep -A1 '1024x540_0.csv' 1024x540_0.csv | awk -F', ' '{print $5}'
+#echo $TESTGP | gnuplot ###work!!!
+#multiple execution will cause csv file to append , so the grep will get multiple result Fxxk
