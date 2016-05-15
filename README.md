@@ -1,7 +1,7 @@
 #Arthor: Yen-Kwan Wu
 #
 # Verify_Netflix_Per-Title_Encode_Optimization
-Use ffmpeg and x265( HEVC) to verify the Per-Title_Encode_Optimization by Netflix
+Use ffmpeg and x265( HEVC) to verify the Per-Title_Encode_Optimization by Netflix.
 I just test the file in 4K at http://media.xiph.org/video/derf/ (I try the Netflix_Narrator)
 
 #Refernce
@@ -16,6 +16,8 @@ Netflix tech blog: http://techblog.netflix.com/2015/12/per-title-encode-optimiza
 6. Calculate PSNR
 7. Generate picture PSNR vs Bitrate by gnuplot
 
+#Sample picture
+  `comparation.png` in this repository
 #Usage
   sudo bash script.sh [Vedio File Path] [Resolution 1] [Resolution 2] ...
 
@@ -28,5 +30,5 @@ Netflix tech blog: http://techblog.netflix.com/2015/12/per-title-encode-optimiza
 3. I jsut test the .y4m file with 4096x2160 and not try for others
 
 #Contact with me
-If you have any questions, please don't mind reporting to me
+If you have any questions, please don't mind reporting to me.
   c14006078@gmail.com 
