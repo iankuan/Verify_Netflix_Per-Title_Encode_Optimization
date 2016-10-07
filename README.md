@@ -7,6 +7,9 @@ I just test the file in 4K at http://media.xiph.org/video/derf/ (I try the Netfl
 #Refernce
 Netflix tech blog: http://techblog.netflix.com/2015/12/per-title-encode-optimization.html
 
+#Example Result
+
+![image](https://github.com/c14006078/Verify_Netflix_Per-Title_Encode_Optimization/blob/master/comparation.png)
 #Verify Flow
 1. Reduce Frame
 2. Down Sampling
