@@ -2,8 +2,8 @@
 Use ffmpeg and x265( HEVC) to verify the Per-Title_Encode_Optimization by Netflix.
 I just test the file in 4K at http://media.xiph.org/video/derf/ (I try the Netflix_Narrator)
 
-# Refernce
-Netflix tech blog: http://techblog.netflix.com/2015/12/per-title-encode-optimization.html
+> Reference:
+>> Netflix tech blog: http://techblog.netflix.com/2015/12/per-title-encode-optimization.html
 
 # Example Result
 
@@ -20,10 +20,10 @@ Netflix tech blog: http://techblog.netflix.com/2015/12/per-title-encode-optimiza
 # Sample picture
   `comparation.png` in this repository
 # Usage
-  sudo bash script.sh [Vedio File Path] [Resolution 1] [Resolution 2] ...
+  `sudo bash script.sh [Vedio File Path] [Resolution 1] [Resolution 2] ...`
 
 # Example:
-  sudo bash script.sh Netflix.y4m 3072x1620 2048x1080 1536x810 1024x540
+  `sudo bash script.sh Netflix.y4m 3072x1620, 2048x1080, 1536x810, 1024x540`
 
 # Defalut Configuration
 1. reduce frame to 128
