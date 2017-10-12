@@ -25,7 +25,7 @@ I just test the file in 4K at http://media.xiph.org/video/derf/ (I try the Netfl
 # Example:
   `sudo bash script.sh Netflix.y4m 3072x1620, 2048x1080, 1536x810, 1024x540`
 
-# Defalut Configuration
+# Default Configuration
 1. reduce frame to 128
 2. At begining, you should determine the interval of QP ( start with QP=0, which means the best quality and QP no more than 51)
 3. I jsut test the .y4m file with 4096x2160 and not try for others
